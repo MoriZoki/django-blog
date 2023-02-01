@@ -1,0 +1,7 @@
+{% extends "star_ratings/widget_base.html" %}
+{% block rating_detail %}
+    {% if user.is_authenticated == False%}
+        <div><small>برای رای دادن باید وارد شوید</small></div>
+    {% endif %}
+
+{% endblock %}

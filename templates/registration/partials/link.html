@@ -1,0 +1,5 @@
+<a href="{% url link %}" 
+class="nav-link {% if request.resolver_match.url_name == link_name %}active{% endif %}">
+    <i class="bi bi-{{icon}} nav-icon"></i>
+    <p>{{content}}</p>
+  </a>

@@ -1,0 +1,49 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load comment_tags %}
+{% load ratings %}
+{% block main %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{ object.thumbnail.url }}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>{{ object.title }}</h1>
+                        {% if object.is_special == True %}
+                            <span class="badge bg-danger tagvip rounded-pill">ویژه</span>
+                        {% endif %}
+
+                    <time>{{ object.jpublish }}</time>
+                    <div>{% ratings object %}</div>
+                    <div> بازدید ها : {{ object.hits.count }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Post Content-->
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7 text-justify">
+                {% if object.is_special %}
+                {% if user.is_authenticated and user.is_special_user or user == object.author or user.is_superuser%}
+                {{ object.description|safe}}
+                {% else %}
+                {{ object.description|striptags|truncatewords:20}}
+                <p class="alert alert-success text-center">این مقاله ویژه است و برای مشاهده آن نیاز به <a class="alert-link" href="#">اشتراک ویژه</a> دارید</p>
+                {% endif %}
+                {% else %}
+                {{ object.description|safe}}
+                {% endif %}
+
+
+                {% render_comments object request %}
+                {% include_bootstrap %}
+            </div>
+
+        </div>
+    </div>
+</article>
+{% endblock %}

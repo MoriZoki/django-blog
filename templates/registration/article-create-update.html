@@ -1,0 +1,68 @@
+{% extends 'registration/BaseAdmin.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% block titlemeta %}لیست مقالات{% endblock %}{% endblock %}
+
+
+
+
+{% block main %}
+<div class="col-md-12">
+    <div class="card card-primary">
+        <div class="card-header">
+            <p class="h3 card-title mb-0 float-left">فرم ارسال مقاله</p>
+
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-6">
+                        {{ form.title|as_crispy_field }}
+                        {{ form.is_special|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.slug|as_crispy_field }}
+                    </div>
+                    <div class="col-12">
+                        {{ form.description|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.category|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.thumbnail|as_crispy_field }}
+                        {{ form.publish|as_crispy_field }}
+                    </div>
+                    {% if user.is_superuser %}
+                    <div class="col-6">
+                        {{ form.author|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.status|as_crispy_field }}
+                    </div>
+                    {% endif %}
+                    <div class="col-6">
+                        <div id="div_id_status" class="form-group">
+                            <label for="id_status" class=" requiredField">
+                                وضعیت انشار<span class="asteriskField">*</span>
+                            </label>
+                            <div>
+                                <select name="status" class="select form-control" required="" id="id_status">
+                                    <option value="">---------</option>
+                                    <option value="d">پیش نویس</option>
+                                    <option value="i">درحال برسی</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" type="submit" value="save">ارسال مقاله</button>
+                        {% if user.is_superuser and request.resolver_match.kwargs.pk %}
+                        <a href="{% url 'account:article-delete' request.resolver_match.kwargs.pk %}"
+                            class="btn btn-danger" type="submit" value="save">حذف</a>
+                        {% endif %}
+            </form>
+
+        </div>
+    </div>
+
+    {% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load ratings %}
+{% block title %}weblog{% endblock %}
+{% block main %}
+{% block custom-link %}<link href="{% static 'blog/css/home.css' %}" rel="stylesheet"/>{% endblock %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{% static 'blog/assets/img/home-bg.jpg' %}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1 class="titleweblog">ITParsian</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation-->
+
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        {% block category_title %}{% endblock %}
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Post preview-->
+            {% for item in object_list %}
+            <div class="post-preview">
+                <a href="{% url 'blog:detail' item.slug %}">
+                    <p class="post-title">{{ item.title }}
+                        {% if item.is_special == True %}
+                    
+                             <span class="badge bg-danger tagvip rounded-pill">ویژه</span>
+                        {% endif %}
+                       
+                    </p>
+                    
+                    <h3 class="post-subtitle">{{ item.description|striptags|truncatewords:20}}</h3>
+                </a>
+                <hr>
+                <p class="post-meta">
+                    نوشته شده توسط
+                    <a href="{% url 'blog:author' item.author %}">{{item.author.get_full_name}}</a>
+                    {{ item.jpublish }}
+                </p>
+                <div>{% ratings item %}</div>
+
+                <div>
+                    {% for cat in item.category.active %}
+                    <a href="{% url 'blog:category' cat.slug %}">#{{ cat.title }}</a>
+                    {% endfor %}
+                </div>
+                <div> بازدید ها : {{ item.hits.count }}</div>
+                <br>
+            </div>
+            <!-- Divider-->
+            
+            <hr class="my-4" />
+            <!-- Post preview-->
+
+            {% endfor %}
+
+            <!-- Pager-->
+            <div class="d-flex justify-content-end mb-4">
+                {% if is_paginated %}
+                    <div class="d-flex justify-content-end mb-4">
+                        {% if page_obj.has_next %}
+                            <a class="btn btn-primary text-uppercase" style="margin-left:10px;" href="{% block paginat_next %}{% endblock %}">پست های قدیمی ◄</a>
+                        {% endif %}
+
+                        {% if page_obj.has_previous %}
+                        <a class="btn btn-primary text-uppercase" href="{% block paginat_prev %}{% endblock %}">پست های جدید ►</a>
+                        {% endif %}
+                    </div> 
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

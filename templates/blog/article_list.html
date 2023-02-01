@@ -1,0 +1,9 @@
+{% extends 'blog/list.html' %}
+{% block category_title %}{% endblock %}
+
+
+
+{% block paginat_next %}{% url 'blog:home' page_obj.next_page_number %}{% endblock %}
+
+
+{% block paginat_prev %}{% url 'blog:home' page_obj.previous_page_number %}{% endblock %}

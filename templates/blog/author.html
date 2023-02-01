@@ -1,0 +1,14 @@
+{% extends 'blog/list.html' %}
+
+
+
+
+{% block category_title %}<h1 class="alert alert-primary text-center rounded-3">نویسنده : {{ author.get_full_name }} </h1>{% endblock %}
+
+
+
+
+{% block paginat_next %}{% url 'blog:author' author.username page_obj.next_page_number %}{% endblock %}author
+
+
+{% block paginat_prev %}{% url 'blog:author' author.username page_obj.previous_page_number %}{% endblock %}

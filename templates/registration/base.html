@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="rtl" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'registration/css/bootstrap-reboot.rtl.min.css' %}">
+    <link rel="stylesheet" href="{% static 'registration/css/bootstrap.rtl.min.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body class="bg-dark">
+{% block main %}
+{% endblock %}
+
+<script src="{% static 'registration/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'registration/js/bootstrap.bundle.js' %}"></script>
+
+</body>
+</html>
